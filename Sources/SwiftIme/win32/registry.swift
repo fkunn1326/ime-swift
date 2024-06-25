@@ -40,3 +40,8 @@ func RegCreateAndWriteKey(path: HKEY, subKey: String, name: String?, value: Stri
 
     return true
 }
+
+func RegDeleteTree(path: HKEY, subKey: String) -> Bool {
+    let hr = RegDeleteTreeA(path, subKey)
+    return hr == ERROR_SUCCESS
+}

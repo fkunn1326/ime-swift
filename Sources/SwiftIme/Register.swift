@@ -1,6 +1,9 @@
 // Register
 import WinSDK
 
+let clsid_key = CLSID_PREFIX + GUID_TEXT_SERVICE.toString()
+let inproc_key = clsid_key + INPROC_SUFFIX
+
 func register_profiles() -> UnsafeMutableRawPointer?{
     var pointer: UnsafeMutableRawPointer?
     let hr = CoCreateInstance(
@@ -17,8 +20,6 @@ func register_profiles() -> UnsafeMutableRawPointer?{
 }
 
 func register_clsid(path: String) -> Bool{
-    let clsid_key = CLSID_PREFIX + GUID_TEXT_SERVICE.toString()
-    let inproc_key = clsid_key + INPROC_SUFFIX
 
     let clsid_hr = RegCreateAndWriteKey(path: HKEY_CLASSES_ROOT, subKey: clsid_key, name: nil, value: SERVICE_NAME)
     if !clsid_hr {
@@ -37,5 +38,17 @@ func register_clsid(path: String) -> Bool{
         return false
     }
 
+    return true
+}
+
+func unregister_clsid() -> Bool {
+    let clsid_hr = RegDeleteTree(path: HKEY_CLASSES_ROOT, subKey: clsid_key)
+    if !clsid_hr {
+        return false
+    }
+    let inproc_hr = RegDeleteTree(path: HKEY_CLASSES_ROOT, subKey: inproc_key)
+    if !inproc_hr {
+        return false
+    }
     return true
 }

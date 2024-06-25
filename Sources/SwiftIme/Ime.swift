@@ -33,5 +33,6 @@ public func DllRegisterServer() -> HRESULT {
 @_cdecl("DllUnregisterServer")
 public func DllUnregisterServer() -> HRESULT {
     showMessageBox(title: "DllUnregisterServer", message: "from swift")
+    _ = unregister_clsid()
     return S_OK
 }
