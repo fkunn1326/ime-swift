@@ -1,5 +1,4 @@
-// The Swift Programming Language
-// https://docs.swift.org/swift-book
+// Main entry point for DLL
 
 import Foundation
 import WinSDK
@@ -26,7 +25,8 @@ public func DllGetClassObject() -> HRESULT {
 
 @_cdecl("DllRegisterServer")
 public func DllRegisterServer() -> HRESULT {
-    showMessageBox(title: "DllRegisterServer", message: "from swift")
+    let path = getDLLPath()
+    _ = register_clsid(path: path ?? "")
     return S_OK
 }
 
