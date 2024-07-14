@@ -21,13 +21,11 @@ func print(message: String) {
 
 @_cdecl("DllCanUnloadNow")
 public func DllCanUnloadNow() -> HRESULT{
-    showMessageBox(title: "DllCanUnloadNow", message: "from swift")
     return S_OK
 }
 
 @_cdecl("DllGetClassObject")
 public func DllGetClassObject() -> HRESULT {
-    showMessageBox(title: "DllGetClassObject", message: "from swift")
     return S_OK
 }
 
@@ -44,5 +42,7 @@ public func DllRegisterServer() -> HRESULT {
 public func DllUnregisterServer() -> HRESULT {
     showMessageBox(title: "DllUnregisterServer", message: "from swift")
     _ = unregister_clsid()
+    _ = unregister_profiles()
+    _ = unregister_categories()
     return S_OK
 }

@@ -47,6 +47,30 @@ func register_profiles(path: String) -> UnsafeMutableRawPointer?{
     return result
 }
 
+func unregister_profiles() -> Bool {
+    var pointer: UnsafeMutableRawPointer?
+    var clsid = CLSID_TF_InputProcessorProfiles
+    var iid = IID_ITfInputProcessorProfileMgr
+
+    let hr_create = CoCreateInstance(
+        &clsid, nil, DWORD(CLSCTX_INPROC_SERVER.rawValue), &iid, &pointer
+    )
+    
+    if hr_create != S_OK {
+        print(message: "Failed to create instance of ITfInputProcessorProfileMgr")
+        return false
+    }
+
+    let profile_mgr: ITfInputProcessorProfileMgr = ITfInputProcessorProfileMgr(pUnk: pointer)
+
+    let hr = try? profile_mgr.UnregisterProfile(&GUID_TEXT_SERVICE, LANG_ID, &GUID_PROFILE, 0)
+    if hr != S_OK {
+        print(message: "Failed to unregister profile")
+        return false
+    }
+    return true
+}
+
 func register_categories() -> Bool {
     var pointer: UnsafeMutableRawPointer?
     var clsid = CLSID_TF_CategoryMgr
@@ -81,6 +105,43 @@ func register_categories() -> Bool {
         }
     }
     return true
+}
+
+func unregister_categories() -> Bool {
+    var pointer: UnsafeMutableRawPointer?
+    var clsid = CLSID_TF_CategoryMgr
+    var iid = IID_ITfCategoryMgr
+
+    let hr_create = CoCreateInstance(
+        &clsid, nil, DWORD(CLSCTX_INPROC_SERVER.rawValue), &iid, &pointer
+    )
+
+    if hr_create != S_OK {
+        print(message: "Failed to create instance of ITfCategoryMgr")
+        return false
+    }
+
+    let catmgr = ITfCategoryMgr(pUnk: pointer)
+
+    let categories = [
+        GUID_TFCAT_DISPLAYATTRIBUTEPROVIDER,
+        GUID_TFCAT_TIPCAP_COMLESS,
+        GUID_TFCAT_TIPCAP_INPUTMODECOMPARTMENT,
+        GUID_TFCAT_TIPCAP_UIELEMENTENABLED,
+        GUID_TFCAT_TIP_KEYBOARD,
+        GUID_TFCAT_TIPCAP_IMMERSIVESUPPORT,
+        GUID_TFCAT_TIPCAP_SYSTRAYSUPPORT,
+    ]
+
+    for var category in categories {
+        let hr = try? catmgr.UnregisterCategory(&GUID_TEXT_SERVICE, &category, &GUID_TEXT_SERVICE)
+        if hr != S_OK {
+            print(message: "Failed to unregister category")
+            return false
+        }
+    }
+    return true
+
 }
 
 func register_clsid(path: String) -> Bool{
