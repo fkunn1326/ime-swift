@@ -11,6 +11,14 @@ func showMessageBox(title: String, message: String) {
     }
 }
 
+func print(message: String) {
+    "debug".withCString { titlePtr in
+        message.withCString { messagePtr in
+            _ = MessageBoxA(nil, messagePtr, titlePtr, UINT(MB_OK))
+        }
+    }
+}
+
 @_cdecl("DllCanUnloadNow")
 public func DllCanUnloadNow() -> HRESULT{
     showMessageBox(title: "DllCanUnloadNow", message: "from swift")
@@ -27,6 +35,8 @@ public func DllGetClassObject() -> HRESULT {
 public func DllRegisterServer() -> HRESULT {
     let path = getDLLPath()
     _ = register_clsid(path: path ?? "")
+    _ = register_profiles(path: path ?? "")
+    _ = register_categories()
     return S_OK
 }
 

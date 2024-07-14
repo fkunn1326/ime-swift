@@ -42,5 +42,3 @@ public extension GUID {
         return String(format: "{%08X-%04X-%04X-%02X%02X-%02X%02X%02X%02X%02X%02X}", Data1, Data2, Data3, data4.0, data4.1, data4.2, data4.3, data4.4, data4.5, data4.6, data4.7)
     }
 }
-
-var CLSID_TF_InputProcessorProfiles: GUID = GUID(fromString: "33c53a50-f456-4884-b049-85fd643ecfed")

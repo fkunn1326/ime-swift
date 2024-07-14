@@ -1,11 +1,11 @@
 <Configuration>
   <MappedFolders>
     <MappedFolder>
-      <HostFolder>D:\ime-swift\.build\release</HostFolder>
+      <HostFolder>D:\SwiftIME\.build\release</HostFolder>
       <ReadOnly>true</ReadOnly>
     </MappedFolder>
     <MappedFolder>
-      <HostFolder>D:\ime-swift\wsb</HostFolder>
+      <HostFolder>D:\SwiftIME\wsb</HostFolder>
       <ReadOnly>true</ReadOnly>
     </MappedFolder>
   </MappedFolders>

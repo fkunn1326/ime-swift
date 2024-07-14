@@ -1,0 +1,4 @@
+module Binding {
+    header binding.h
+    export *
+}
