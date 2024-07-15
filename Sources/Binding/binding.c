@@ -10,3 +10,4 @@ wchar_t* convertCharToWchar(const char* str) {
     mbstowcs(wstr, str, length + 1);
     return wstr;
 }
+

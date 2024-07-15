@@ -21,9 +21,14 @@ let package = Package(
             dependencies: []
         ),
         .target(
+            name: "Core",
+            dependencies: []
+        ),
+        .target(
             name: "SwiftIME",
             dependencies: [
-                "Binding"
+                "Binding",
+                "Core"
             ],
             linkerSettings: [
                 .unsafeFlags(["-Xlinker", "Sources/assets/resource.res"])

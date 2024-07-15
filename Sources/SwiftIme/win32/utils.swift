@@ -19,3 +19,20 @@ func getDLLPath() -> String? {
     
     return String(cString: pathBuffer)
 }
+
+func ComGetPointer(rclsid: CLSID, riid: IID) -> UnsafeMutableRawPointer? {
+    var pointer: UnsafeMutableRawPointer?
+    var clsid = rclsid
+    var iid = riid
+
+    let hr_create = CoCreateInstance(
+        &clsid, nil, DWORD(CLSCTX_INPROC_SERVER.rawValue), &iid, &pointer
+    )
+    
+    if hr_create != S_OK {
+        print(message: "Failed to create instance of \(clsid.toString())")
+        return nil
+    }
+
+    return pointer
+}

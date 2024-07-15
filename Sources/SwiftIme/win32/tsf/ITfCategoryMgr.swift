@@ -2,9 +2,7 @@ import WinSDK
 
 public class ITfCategoryMgr: IUnknown {
     override public class var IID: IID { IID_ITfCategoryMgr }
-
 	
-
     public func RegisterCategory(
         _ rclsid: UnsafePointer<GUID>,
         _ rcatid: UnsafePointer<GUID>,

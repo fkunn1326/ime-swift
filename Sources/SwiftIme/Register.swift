@@ -6,25 +6,11 @@ let clsid_key = CLSID_PREFIX + GUID_TEXT_SERVICE.toString()
 let inproc_key = clsid_key + INPROC_SUFFIX
 
 func register_profiles(path: String) -> UnsafeMutableRawPointer?{
-    var pointer: UnsafeMutableRawPointer?
-    var clsid = CLSID_TF_InputProcessorProfiles
-    var iid = IID_ITfInputProcessorProfileMgr
-
-    let hr_create = CoCreateInstance(
-        &clsid, nil, DWORD(CLSCTX_INPROC_SERVER.rawValue), &iid, &pointer
-    )
-    
-    if hr_create != S_OK {
-        print(message: "Failed to create instance of ITfInputProcessorProfileMgr \n code: \(String(hr_create))")
-        return nil
-    }
-
+    let pointer = ComGetPointer(rclsid: CLSID_TF_InputProcessorProfiles, riid: IID_ITfInputProcessorProfileMgr)
     let profile_mgr: ITfInputProcessorProfileMgr = ITfInputProcessorProfileMgr(pUnk: pointer)
     
     let service_name: UnsafeMutablePointer<wchar_t>? = convertCharToWchar(SERVICE_NAME)
-    print(message: "Path: \(path) \n")
     let rc_path: UnsafeMutablePointer<wchar_t>? = convertCharToWchar(path)
-
 
     let result: UnsafeMutableRawPointer? = nil
     let hkl = UnsafeMutablePointer<HKL>.allocate(capacity: 1)
@@ -48,19 +34,7 @@ func register_profiles(path: String) -> UnsafeMutableRawPointer?{
 }
 
 func unregister_profiles() -> Bool {
-    var pointer: UnsafeMutableRawPointer?
-    var clsid = CLSID_TF_InputProcessorProfiles
-    var iid = IID_ITfInputProcessorProfileMgr
-
-    let hr_create = CoCreateInstance(
-        &clsid, nil, DWORD(CLSCTX_INPROC_SERVER.rawValue), &iid, &pointer
-    )
-    
-    if hr_create != S_OK {
-        print(message: "Failed to create instance of ITfInputProcessorProfileMgr")
-        return false
-    }
-
+    let pointer = ComGetPointer(rclsid: CLSID_TF_InputProcessorProfiles, riid: IID_ITfInputProcessorProfileMgr)
     let profile_mgr: ITfInputProcessorProfileMgr = ITfInputProcessorProfileMgr(pUnk: pointer)
 
     let hr = try? profile_mgr.UnregisterProfile(&GUID_TEXT_SERVICE, LANG_ID, &GUID_PROFILE, 0)
@@ -72,19 +46,7 @@ func unregister_profiles() -> Bool {
 }
 
 func register_categories() -> Bool {
-    var pointer: UnsafeMutableRawPointer?
-    var clsid = CLSID_TF_CategoryMgr
-    var iid = IID_ITfCategoryMgr
-
-    let hr_create = CoCreateInstance(
-        &clsid, nil, DWORD(CLSCTX_INPROC_SERVER.rawValue), &iid, &pointer
-    )
-
-    if hr_create != S_OK {
-        print(message: "Failed to create instance of ITfCategoryMgr")
-        return false
-    }
-
+    let pointer = ComGetPointer(rclsid: CLSID_TF_CategoryMgr, riid: IID_ITfCategoryMgr)
     let catmgr = ITfCategoryMgr(pUnk: pointer)
 
     let categories = [
@@ -108,19 +70,7 @@ func register_categories() -> Bool {
 }
 
 func unregister_categories() -> Bool {
-    var pointer: UnsafeMutableRawPointer?
-    var clsid = CLSID_TF_CategoryMgr
-    var iid = IID_ITfCategoryMgr
-
-    let hr_create = CoCreateInstance(
-        &clsid, nil, DWORD(CLSCTX_INPROC_SERVER.rawValue), &iid, &pointer
-    )
-
-    if hr_create != S_OK {
-        print(message: "Failed to create instance of ITfCategoryMgr")
-        return false
-    }
-
+    let pointer = ComGetPointer(rclsid: CLSID_TF_CategoryMgr, riid: IID_ITfCategoryMgr)
     let catmgr = ITfCategoryMgr(pUnk: pointer)
 
     let categories = [
@@ -145,7 +95,6 @@ func unregister_categories() -> Bool {
 }
 
 func register_clsid(path: String) -> Bool{
-
     let clsid_hr = RegCreateAndWriteKey(path: HKEY_CLASSES_ROOT, subKey: clsid_key, name: nil, value: SERVICE_NAME)
     if !clsid_hr {
         return false
