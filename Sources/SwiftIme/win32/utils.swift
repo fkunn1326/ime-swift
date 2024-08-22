@@ -36,3 +36,12 @@ func ComGetPointer(rclsid: CLSID, riid: IID) -> UnsafeMutableRawPointer? {
 
     return pointer
 }
+
+func convertCharToWchar(_ str: String) -> UnsafeMutablePointer<wchar_t>? {
+    let length = str.utf8.count
+    let wstr = UnsafeMutablePointer<wchar_t>.allocate(capacity: length + 1)
+    str.withCString { cstr in
+        mbstowcs(wstr, cstr, length + 1)
+    }
+    return wstr
+}

@@ -1,8 +1,11 @@
 <Configuration>
   <MappedFolders>
     <MappedFolder>
-      <HostFolder>D:\SwiftIME\.build\release</HostFolder>
+      <HostFolder>D:\SwiftIME\.build\x86_64-unknown-windows-msvc\release</HostFolder>
       <ReadOnly>true</ReadOnly>
+    </MappedFolder>
+    <MappedFolder>
+      <HostFolder>D:\Dependecies</HostFolder>
     </MappedFolder>
     <MappedFolder>
       <HostFolder>D:\SwiftIME\wsb</HostFolder>

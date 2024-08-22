@@ -1,5 +1,6 @@
 {
     "files.associations": {
-        "msctf.h": "c"
+        "msctf.h": "c",
+        "binding.h": "c"
     }
 }

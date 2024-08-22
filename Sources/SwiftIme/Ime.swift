@@ -2,7 +2,6 @@
 
 import Foundation
 import WinSDK
-import Core
 
 func showMessageBox(title: String, message: String) {
     title.withCString { titlePtr in
@@ -27,7 +26,6 @@ public func DllCanUnloadNow() -> HRESULT{
 
 @_cdecl("DllGetClassObject")
 public func DllGetClassObject(rclsid: REFCLSID, riid: REFIID, ppv: UnsafeMutablePointer<UnsafeMutableRawPointer?>) -> HRESULT {
-    run_from_cpp()
     return S_OK
 }
 

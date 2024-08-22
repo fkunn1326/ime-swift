@@ -1,6 +1,5 @@
 // Register
 import WinSDK
-import Binding
 
 let clsid_key = CLSID_PREFIX + GUID_TEXT_SERVICE.toString()
 let inproc_key = clsid_key + INPROC_SUFFIX
