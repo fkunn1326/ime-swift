@@ -29,6 +29,9 @@ internal var E_NOTIMPL: HRESULT {
 internal var RPC_E_CHANGED_MODE: HRESULT {
     HRESULT(bitPattern: 0x8001_0106)
 }
+internal var CLASS_E_CLASSNOTAVAILABLE: HRESULT {
+    HRESULT(bitPattern: 0x8004_0111)
+}
 @_transparent
 public func MAKELANGID(_ p: WORD, _ s: WORD) -> DWORD {
     return DWORD((s << 10) | p)
